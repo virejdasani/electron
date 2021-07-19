@@ -32,7 +32,7 @@ bool SafeStorage::IsEncryptionAvailable() {
 
 v8::Local<v8::Value> SafeStorage::EncryptString(v8::Isolate* isolate,
                                                 const std::string& plaintext) {
-  DCHECK(SafeStorage::electron_crypto_ready);
+  // DCHECK(SafeStorage::electron_crypto_ready);
   std::string ciphertext;
   bool encrypted = OSCrypt::EncryptString(plaintext, &ciphertext);
 
@@ -58,6 +58,7 @@ std::string SafeStorage::DecryptString(v8::Isolate* isolate,
   const char* data = node::Buffer::Data(buffer);
   auto size = node::Buffer::Length(buffer);
   std::string ciphertext(data, size);
+  LOG(ERROR) << "ciphertext (DecryptString): " << ciphertext;
 
   std::string plaintext;
   bool decrypted = OSCrypt::DecryptString(ciphertext, &plaintext);

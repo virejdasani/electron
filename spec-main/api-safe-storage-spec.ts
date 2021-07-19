@@ -61,6 +61,15 @@ describe('safeStorage module', () => {
       const encryptAppPath = path.join(fixturesPath, 'api', 'safe-storage', 'encrypt-app');
       const encryptAppProcess = cp.spawn(process.execPath, [encryptAppPath]);
 
+      let encryptedOutput = '';
+      encryptAppProcess.stdout.on('data', data => { encryptedOutput += data; });
+      encryptAppProcess.stderr.on('data', data => { encryptedOutput += data; });
+
+      console.log('encryptedOutput: ', encryptedOutput);
+      setTimeout(() => {
+        console.log('encryptedOutput (TIMEOUT): ', encryptedOutput);
+      }, 3000);
+
       await emittedOnce(encryptAppProcess, 'exit');
 
       const appPath = path.join(fixturesPath, 'api', 'safe-storage', 'decrypt-app');
@@ -69,6 +78,11 @@ describe('safeStorage module', () => {
       let output = '';
       relaunchedAppProcess.stdout.on('data', data => { output += data; });
       relaunchedAppProcess.stderr.on('data', data => { output += data; });
+
+      console.log('Output: ', output);
+      setTimeout(() => {
+        console.log('Output (TIMEOUT): ', output);
+      }, 3000);
 
       const [code] = await emittedOnce(relaunchedAppProcess, 'exit');
 

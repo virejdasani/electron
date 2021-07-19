@@ -8,5 +8,8 @@ const writeFile = fs.writeFile;
 app.whenReady().then(async () => {
   const encrypted = safeStorage.encryptString('plaintext');
   const encryptedString = await writeFile(pathToEncryptedString, encrypted);
-  app.quit();
+  console.log('encryptedString: ', encryptedString);
+  setTimeout(() => {
+    app.quit();
+  }, 3000);
 });
